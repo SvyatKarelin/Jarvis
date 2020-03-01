@@ -1,16 +1,20 @@
 import speaker
 import game
-import Jarvis
+from JarvisCore import Jarvis
 
 # создаем Джарвиса
 jarvis = Jarvis()
 
 try:
     while True:
-        jarvis.listen()
+        jarvis.listen(2)
         if jarvis.checkActive():
-            jarvis.listen()
+            jarvis.listen(3, True)
+            # записываем основной запрос пользователя
+            jarvis.playLowBeep()
+            jarvis.yandexRecognize()
 
+        """
         command = input(">введите комманду:")
         if command == "/help":
             print("/game играть")
@@ -19,6 +23,7 @@ try:
             game.GameLoop()
         elif command == "/speak":
             speaker.speaker()
-except Exception:
-    jarvis.say("Ошибка")
+        """
+except Exception as e:
+    print("Глобальная ошибка; {0}".format(e))
 
