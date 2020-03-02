@@ -1,19 +1,20 @@
-import speaker
-import game
 from JarvisCore import Jarvis
 
+loop = True
 # создаем Джарвиса
 jarvis = Jarvis()
 
 try:
-    while True:
+    while loop:
         jarvis.listen(2)
-        if jarvis.checkActive():
+        res = jarvis.checkActive()
+        if res == 1:
             jarvis.listen(3, True)
             # записываем основной запрос пользователя
             jarvis.playLowBeep()
             jarvis.yandexRecognize()
-
+        elif res == 2:
+            loop = False
         """
         command = input(">введите комманду:")
         if command == "/help":

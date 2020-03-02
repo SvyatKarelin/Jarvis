@@ -1,3 +1,4 @@
+import os
 import json
 import requests
 
@@ -20,12 +21,15 @@ class YandexStuff:
         return iam_token, expires_iam_token
 
 
-    def recognize(self, IAM_TOKEN):
+    def recognize(self, iam_token):
         # распознаём речь
         url = "https://stt.api.cloud.yandex.net/speech/v1/stt:recognize"
-        headers = {'Authorization': f'Bearer {IAM_TOKEN}'}
+        #headers = {'Authorization': f'Bearer {iam_token}'}
+        headers = {
+            'Authorization': 'Bearer ' + iam_token,
+        }
 
-        with open("send.ogg", "rb") as f:
+        with open("audio/tmp/send.ogg", "rb") as f:
             data_sound = f.read()
 
         # остальные параметры:
@@ -43,3 +47,37 @@ class YandexStuff:
         text = json.loads(decode_resp)
 
         return text
+
+    def synthesize(self, iam_token, text):
+        url = 'https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize'
+        headers = {
+            'Authorization': 'Bearer ' + iam_token,
+        }
+
+        data = {
+            'text': text,
+            'lang': 'ru-RU',
+            'voice': 'zahar',
+            'folderId': self.folderId,
+            'format': 'lpcm',
+            'sampleRateHertz': 48000,
+        }
+
+        with requests.post(url, headers=headers, data=data, stream=True) as resp:
+            if resp.status_code != 200:
+                raise RuntimeError("Invalid response received: code: %d, message: %s" % (resp.status_code, resp.text))
+
+            for chunk in resp.iter_content(chunk_size=None):
+                yield chunk
+
+    def createSynthAudio(self, iam_token, text, outFile = ""):
+        with open("audio/tmp/synth.raw", "wb") as f:
+            for audio_content in self.synthesize(iam_token, text):
+                f.write(audio_content)
+
+        output = "speech.wav"
+        if outFile != "":
+            output = outFile
+
+        # lpcm в wav-формат при помощи SoX-утилиты
+        os.system('sox -r 48000 -b 16 -e signed-integer -c 1 audio/tmp/synth.raw audio/tmp/' + output)

@@ -8,10 +8,13 @@
 
 # редактируем словарь известных системе произношений
 # sudo nano /home/pi/.local/lib/python3.7/site-packages/speech_recognition/pocketsphinx-data/en-US/pronounciation-dictionary.dict
-# оставляем только ключевое слово для активации Джарвиса - jarvis JH AA R V AH S
+# оставляем только ключевые слова для активации Джарвиса
+# - jarvis JH AA R V AH S
+# - stop S T AO P
 
 
 import os
+import time
 import speech_recognition as sr
 from YandexCloud import YandexStuff
 
@@ -22,26 +25,20 @@ class Jarvis:
         self.yandexStuff = YandexStuff()
         self.r = sr.Recognizer()
         self.iamToken, self.iamTokenExpires = self.yandexStuff.create_token()
+        #self.yandexStuff.createSynthAudio(self.iamToken, "Привет, я Джарвис. Готов к работе.")
+        self.play('audio/hi.wav')
+        time.sleep(0.5)
+        self.playLowBeep()
 
     def checkActive(self):
-        result = False
+        # 0 - неактивен
+        # 1 - активация по слову Jarvis
+        # 2 - стоп-слово Stop
+        result = 0
         t = ""
-        """
-        with self.r.Microphone() as source:
-            audio = self.r.listen(source)
 
-        try:
-            t = self.r.recognize_sphinx(audio)
-            print("Sphinx thinks you said " + t)
-        except sr.UnknownValueError:
-            print("Sphinx could not understand audio")
-        except sr.RequestError as e:
-            print("Sphinx error; {0}".format(e))
-        """
-
-        with sr.WavFile("send.wav") as source:
+        with sr.WavFile("audio/tmp/send.wav") as source:
             audio = self.r.record(source)
-
 
         # используем возможности библиотеки Spinx
         try:
@@ -52,8 +49,12 @@ class Jarvis:
         except sr.RequestError as e:
             print("Sphinx error; {0}".format(e))
 
-        result = t == "jarvis"
-        if result:
+        if t == "jarvis":
+            result = 1
+        elif t == "stop":
+            result = 2
+
+        if result == 1:
             self.playHiBeep()
 
         return result
@@ -66,13 +67,16 @@ class Jarvis:
 
     def listen(self, n, useOgg = False):
         # записываем n секунд эфира с микрофона
-        os.system('arecord -fcd -d' + str(n) + ' send.wav')
+        os.system('arecord -fcd -d' + str(n) + ' audio/tmp/send.wav')
 
         if useOgg:
-            os.system('opusenc --bitrate 48 send.wav send.ogg')
+            os.system('opusenc --bitrate 48 audio/tmp/send.wav audio/tmp/send.ogg')
 
         # with self.r.Microphone() as source:
         #    audio = self.r.listen(source)
+
+    def play(self, file):
+        os.system('aplay ' + file)
 
     def say(self, words):
         # todo text-to-speech
