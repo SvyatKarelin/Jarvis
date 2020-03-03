@@ -1,4 +1,5 @@
 from JarvisCore import Jarvis
+import time
 
 loop = True
 # создаем Джарвиса
@@ -15,6 +16,8 @@ try:
             jarvis.yandexRecognize()
         elif res == 2:
             loop = False
+            jarvis.destroy()
+
         """
         command = input(">введите комманду:")
         if command == "/help":
@@ -27,4 +30,5 @@ try:
         """
 except Exception as e:
     print("Глобальная ошибка; {0}".format(e))
+    jarvis.play('audio/error.wav')
 

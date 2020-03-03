@@ -26,9 +26,16 @@ class Jarvis:
         self.r = sr.Recognizer()
         self.iamToken, self.iamTokenExpires = self.yandexStuff.create_token()
         #self.yandexStuff.createSynthAudio(self.iamToken, "Привет, я Джарвис. Готов к работе.")
-        self.play('audio/hi.wav')
+        self.play('audio/powerup.wav')
+        time.sleep(0.5)
+        self.play('audio/jarvisHi.wav')
         time.sleep(0.5)
         self.playLowBeep()
+
+    def destroy(self):
+        self.play('audio/powerdown.wav')
+        time.sleep(1)
+        self.play('audio/jarvisBye.wav')
 
     def checkActive(self):
         # 0 - неактивен
