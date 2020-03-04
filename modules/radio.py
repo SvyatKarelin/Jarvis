@@ -15,3 +15,4 @@ class Radio:
 
     def stop(self):
         os.system("pkill mpg123")
+        self.listening = False
