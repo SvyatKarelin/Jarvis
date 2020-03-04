@@ -99,6 +99,10 @@ class Jarvis:
         Jarvis.sysCommand('aplay ' + file)
 
     @staticmethod
+    def playmp3(file):
+        Jarvis.sysCommand('mpg123  ' + file)
+
+    @staticmethod
     def say(self, words):
         # todo text-to-speech
         print(words)

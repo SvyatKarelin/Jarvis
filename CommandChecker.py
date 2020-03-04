@@ -19,4 +19,13 @@ def checkForCommand(words):
           or words == "прогноз погоды"):
         result = "weather"
 
+    elif (words == "радио"
+            or words == "включи радио"
+            or words == "эфир"):
+        result = "radio"
+
+    elif (words == "выключи радио"
+            or words == "стоп радио"):
+        result = "radiostop"
+
     return result

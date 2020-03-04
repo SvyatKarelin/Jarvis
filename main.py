@@ -1,11 +1,14 @@
 from JarvisCore import Jarvis
 import CommandChecker
-from modules import game, Weather
+from modules import game, weather
+from modules.radio import Radio
 import time
+
 
 loop = True
 # создаем Джарвиса
 jarvis = Jarvis()
+radio = Radio()
 
 try:
     while loop:
@@ -28,7 +31,13 @@ try:
                 game.GameLoop()
 
             elif (command == "weather"):
-                Weather.weather()
+                weather.weather()
+
+            elif (command == "radio"):
+                radio.listen()
+
+            elif (command == "radiostop"):
+                radio.stop()
 
         """
         command = input(">введите комманду:")
