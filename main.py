@@ -1,4 +1,6 @@
 from JarvisCore import Jarvis
+import CommandChecker
+from modules import game, Weather
 import time
 
 loop = True
@@ -9,14 +11,24 @@ try:
     while loop:
         jarvis.listen(2)
         res = jarvis.checkActive()
-        if res == 1:
-            jarvis.listen(3, True)
+        if res:
             # записываем основной запрос пользователя
+            jarvis.listen(3, True)
+
             jarvis.playLowBeep()
-            jarvis.yandexRecognize()
-        elif res == 2:
-            loop = False
-            jarvis.destroy()
+            time.sleep(0.5)
+            words = jarvis.yandexRecognize()
+            command = CommandChecker.checkForCommand(words)
+
+            if (command == "exit"):
+                loop = False
+                jarvis.destroy()
+
+            elif (command == "game"):
+                game.GameLoop()
+
+            elif (command == "weather"):
+                Weather.weather()
 
         """
         command = input(">введите комманду:")

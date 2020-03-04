@@ -11,4 +11,4 @@ outfile = args.f
 
 yandexStuff = YandexStuff()
 iamToken, iamTokenExpires = yandexStuff.create_token()
-yandexStuff.createSynthAudio(iamToken, text, outfile)
+yandexStuff.createSyntеуhAudio(iamToken, text, outfile)

@@ -5,7 +5,7 @@ def weather():
 
     weather_parameters = {
         '0': '',
-        'T': '',
+        #'T': '',
         'M': '',
         '1': ''
     }
