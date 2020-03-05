@@ -27,7 +27,6 @@ class Jarvis:
 
         self.r = sr.Recognizer()
         self.iamToken, self.iamTokenExpires = self.yandexStuff.create_token()
-        #self.yandexStuff.createSynthAudio(self.iamToken, "Привет, я Джарвис. Готов к работе.")
 
         self.play('audio/powerup.wav')
         time.sleep(0.5)
@@ -37,7 +36,7 @@ class Jarvis:
         self.playLowBeep()
 
     def destroy(self):
-        # todo uncomment self.play('audio/jarvisBye.wav')
+        self.play('audio/jarvisBye.wav')
         time.sleep(1)
         self.play('audio/powerdown.wav')
 
@@ -102,10 +101,10 @@ class Jarvis:
     def playmp3(file):
         Jarvis.sysCommand('mpg123  ' + file)
 
-    @staticmethod
-    def say(self, words):
-        # todo text-to-speech
-        print(words)
+    def say(self, text):
+        # print(text)
+        self.yandexStuff.createSynthAudio(self.iamToken, text, "tts.wav")
+        Jarvis.play("audio/tmp/tts.wav")
 
     def yandexRecognize(self):
         # speech-to-text от старины Яндекса

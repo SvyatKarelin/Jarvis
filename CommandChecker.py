@@ -28,4 +28,10 @@ def checkForCommand(words):
             or words == "стоп радио"):
         result = "radiostop"
 
+    elif (words == "анекдот"
+            or words == "еще анекдот"
+            or words == "расскажи анекдот"
+            or words == "шутку давай"):
+        result = "anekdot"
+
     return result

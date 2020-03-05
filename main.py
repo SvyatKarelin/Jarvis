@@ -1,6 +1,6 @@
 from JarvisCore import Jarvis
 import CommandChecker
-from modules import game, weather
+from modules import game, weather, anekdot
 from modules.radio import Radio
 import time
 
@@ -9,6 +9,9 @@ loop = True
 # создаем Джарвиса
 jarvis = Jarvis()
 radio = Radio()
+
+#joke = anekdot.getJoke()
+#jarvis.say(joke)
 
 try:
     while loop:
@@ -38,6 +41,14 @@ try:
 
             elif (command == "radiostop"):
                 radio.stop()
+
+            elif (command == "anekdot"):
+                try:
+                    joke = anekdot.getJoke()
+                    print(joke)
+                    jarvis.say(joke)
+                except:
+                    jarvis.say("Что-то я не в настроении шутить")
 
         """
         command = input(">введите комманду:")
