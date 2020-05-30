@@ -20,7 +20,7 @@ from YandexCloud import YandexStuff
 
 class Jarvis:
 
-    def __init__(self, logAll = False):
+    def __init__(self, logAll = True):
         # конструктор
         self.logAll = logAll
         self.yandexStuff = YandexStuff()
@@ -108,6 +108,7 @@ class Jarvis:
 
     def yandexRecognize(self):
         # speech-to-text от старины Яндекса
+        #print('token: ' + self.iamToken);
         recognizedText = self.yandexStuff.recognize(self.iamToken)
         result = recognizedText['result']
         print(result)

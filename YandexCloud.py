@@ -6,7 +6,7 @@ class YandexStuff:
 
     def __init__(self):
         # oauth-токен для доступа к облачным функциям
-        self.oauth_token = "AgAAAAAAI7q8AATuwdo1O3xPcEnEgasUoV4yTM4"
+        self.oauth_token = "AgAAAAAAI7q8AATuwSU3DMHCD0MZidoZPmX9exE"
         # id каталога Yandex-облака
         self.folderId = "b1gg9qm2acr83gf1lcss"
 

@@ -10,7 +10,9 @@ class Radio:
 
     def listen(self):
         if not self.listening:
-            p = subprocess.Popen(['mpg123', '-C', 'http://nashe1.hostingradio.ru/nashe-128.mp3'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            #p = subprocess.Popen(['mpg123', '-C', 'http://nashe1.hostingradio.ru/nashe-128.mp3'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            p = subprocess.Popen(['mpg123', '-C', 'http://online.radiorecord.ru:8102/sd90_128'], stdin=subprocess.PIPE,
+                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             self.listening = True
 
     def stop(self):

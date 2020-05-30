@@ -23,9 +23,11 @@ try:
 
             jarvis.playLowBeep()
             time.sleep(0.5)
+            #print('yandex token:' + jarvis.iamToken)
             words = jarvis.yandexRecognize()
-            command = CommandChecker.checkForCommand(words)
+            command = CommandChecker.checkForCommand(words.lower())
 
+            print('команда: ' + command)
             if (command == "exit"):
                 loop = False
                 jarvis.destroy()
