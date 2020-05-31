@@ -69,5 +69,5 @@ class city_game(BaseModule):
             elif y == "exit":
                 c = "exit"
 
-a = city_game()
-j = a.citi_function()
+#a = city_game()
+#j = a.citi_function()

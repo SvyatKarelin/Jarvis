@@ -39,4 +39,4 @@ def checkForCommand(words):
             or words == "давай поиграем в игру города"):
         result = "cities"
 
-        return result
+    return result

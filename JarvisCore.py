@@ -36,7 +36,7 @@ class Jarvis:
         self.anekdot = Anekdot()
         self.game = Game()
         self.weather = Weather()
-        self.city_game = city_game()
+        self.citygame = city_game()
 
 
         self.recognizer = speech.Recognizer()
@@ -130,6 +130,9 @@ class Jarvis:
 
                     elif (command == "radiostop"):
                         self.radio.stop()
+
+                    elif command == "cities":
+                        self.citygame.citi_function()
 
                     elif (command == "anekdot"):
                         try:

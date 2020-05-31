@@ -1,6 +1,5 @@
 import random
 import strings
-from JarvisCore import Jarvis
 from modules.baseModule import BaseModule
 
 class Game(BaseModule):
@@ -18,6 +17,7 @@ class Game(BaseModule):
         count = 8  # todo использовать random
         print(strings.game_s2)
         print(strings.game_s3)
+        from JarvisCore import Jarvis
         Jarvis.play("audio/game/game_1.wav")
         g_c = ""
         counter = 0
