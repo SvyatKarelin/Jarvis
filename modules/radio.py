@@ -2,11 +2,15 @@ import os
 import pty
 import subprocess
 import time
-from JarvisCore import Jarvis
 
-class Radio:
+
+class Radio(BaseModule):
+
+    # конструктор
     def __init__(self):
+        self.name = "Радио"
         self.listening = False
+        super().__init__(self)
 
     def listen(self):
         if not self.listening:

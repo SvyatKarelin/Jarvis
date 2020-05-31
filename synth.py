@@ -1,3 +1,4 @@
+# только для тестов
 import argparse
 from YandexCloud import YandexStuff
 

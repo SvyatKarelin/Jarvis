@@ -17,6 +17,10 @@ import time
 import subprocess
 import speech_recognition as sr
 from YandexCloud import YandexStuff
+from modules.radio import Radio
+from modules.anekdot import Anekdot
+from modules.game import Game
+from modules.weather import Weather
 
 class Jarvis:
 
@@ -24,6 +28,12 @@ class Jarvis:
         # конструктор
         self.logAll = logAll
         self.yandexStuff = YandexStuff()
+
+        # создаем модули
+        self.radio = Radio()
+        self.anekdot = Anekdot()
+        self.game = Game()
+        self.weather = Weather()
 
         self.r = sr.Recognizer()
         self.iamToken, self.iamTokenExpires = self.yandexStuff.create_token()
@@ -84,6 +94,51 @@ class Jarvis:
         # with self.r.Microphone() as source:
         #    audio = self.r.listen(source)
 
+    def mainLoop(self):
+        try:
+            while True:
+                self.listen(2)
+                res = jarvis.checkActive()
+                if res:
+                    # записываем основной запрос пользователя
+                    jarvis.listen(3, True)
+                    jarvis.playLowBeep()
+
+                    time.sleep(0.5)
+
+                    words = jarvis.yandexRecognize()
+                    command = CommandChecker.checkForCommand(words.lower())
+
+                    print('команда: ' + command)
+                    if (command == "exit"):
+                        loop = False
+                        jarvis.destroy()
+
+                    elif (command == "game"):
+                        self.game.GameLoop()
+
+                    elif (command == "weather"):
+                        self.weather.getWeather()
+
+                    elif (command == "radio"):
+                        self.radio.listen()
+
+                    elif (command == "radiostop"):
+                        self.radio.stop()
+
+                    elif (command == "anekdot"):
+                        try:
+                            joke = self.anekdot.getJoke()
+                            print(joke)
+                            jarvis.say(joke)
+                        except:
+                            jarvis.say("Что-то я не в настроении шутить")
+
+        except Exception as e:
+            print("Глобальная ошибка; {0}".format(e))
+            self.play('audio/error.wav')
+
+    # статические функции для использования в других классах
     @staticmethod
     def sysCommand(command, logAll = False):
         #c = "{}{}".format(command, self.devNull)
