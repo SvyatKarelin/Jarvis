@@ -34,4 +34,9 @@ def checkForCommand(words):
             or words == "шутку давай"):
         result = "anekdot"
 
-    return result
+    elif (words == "давай поиграем в города"
+            or words == "города"
+            or words == "давай поиграем в игру города"):
+        result = "cities"
+
+        return result

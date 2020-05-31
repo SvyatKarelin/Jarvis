@@ -1,5 +1,6 @@
 import random
 import strings
+from JarvisCore import Jarvis
 from modules.baseModule import BaseModule
 
 class Game(BaseModule):
@@ -15,20 +16,20 @@ class Game(BaseModule):
 
     def GameLoop(self):
         count = 8  # todo использовать random
-        print(game_s2)
-        print(game_s3)
+        print(strings.game_s2)
+        print(strings.game_s3)
         Jarvis.play("audio/game/game_1.wav")
         g_c = ""
         counter = 0
         while g_c != "/exit":
-            g_c = input(game_s4)
+            g_c = input(strings.game_s4)
             try:
                 g_c = int(g_c)
 
                 if count < g_c:
-                    print(game_s5)
+                    print(strings.game_s5)
                 elif count > g_c:
-                    print(game_s6)
+                    print(strings.game_s6)
                 elif count == g_c:
                     print("Вы угадали c " + str(counter) + " попытки")
                 counter += 1

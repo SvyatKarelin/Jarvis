@@ -21,6 +21,7 @@ from modules.radio import Radio
 from modules.anekdot import Anekdot
 from modules.game import Game
 from modules.weather import Weather
+from modules.city import city_game
 
 class Jarvis:
 
@@ -35,6 +36,8 @@ class Jarvis:
         self.anekdot = Anekdot()
         self.game = Game()
         self.weather = Weather()
+        self.city_game = city_game()
+
 
         self.recognizer = speech.Recognizer()
         self.iamToken, self.iamTokenExpires = self.yandexStuff.create_token()
