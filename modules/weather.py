@@ -6,7 +6,6 @@ class Weather(BaseModule):
     # конструктор
     def __init__(self):
         self.name = "Погода"
-        self.listening = False
         super().__init__()
 
     def getWeather(self):
