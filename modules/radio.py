@@ -2,6 +2,7 @@ import os
 import pty
 import subprocess
 import time
+from modules.baseModule import BaseModule
 
 
 class Radio(BaseModule):
@@ -10,7 +11,7 @@ class Radio(BaseModule):
     def __init__(self):
         self.name = "Радио"
         self.listening = False
-        super().__init__(self)
+        super().__init__()
 
     def listen(self):
         if not self.listening:

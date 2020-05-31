@@ -1,5 +1,5 @@
 import requests
-
+from modules.baseModule import BaseModule
 
 class Weather(BaseModule):
 
@@ -7,7 +7,7 @@ class Weather(BaseModule):
     def __init__(self):
         self.name = "Погода"
         self.listening = False
-        super().__init__(self)
+        super().__init__()
 
     def getWeather(self):
         url = 'https://wttr.in/Veliky Novgorod'

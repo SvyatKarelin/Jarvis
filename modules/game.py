@@ -1,6 +1,5 @@
 import random
-from JarvisCore import Jarvis
-
+from modules.baseModule import BaseModule
 
 class Game(BaseModule):
 
@@ -8,7 +7,7 @@ class Game(BaseModule):
     def __init__(self):
         self.name = "Игра 'Угадай число'"
         self.listening = False
-        super().__init__(self)
+        super().__init__()
 
     #self.game_speech_1 = 'game_1.wav'  # Добро пожаловать в игру 'Угадай число'
     #self.game_speech_2 = 'game_2.wav'  # Для выхода из игры используйте команду 'стоп'

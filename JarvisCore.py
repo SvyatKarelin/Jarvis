@@ -10,12 +10,12 @@
 # sudo nano /home/pi/.local/lib/python3.7/site-packages/speech_recognition/pocketsphinx-data/en-US/pronounciation-dictionary.dict
 # оставляем только ключевые слова для активации Джарвиса
 # - jarvis JH AA R V AH S
-
-
 import os
 import time
 import subprocess
-import speech_recognition as sr
+import speech_recognition as speech
+
+import CommandChecker
 from YandexCloud import YandexStuff
 from modules.radio import Radio
 from modules.anekdot import Anekdot
@@ -28,6 +28,7 @@ class Jarvis:
         # конструктор
         self.logAll = logAll
         self.yandexStuff = YandexStuff()
+        self.loop = True
 
         # создаем модули
         self.radio = Radio()
@@ -35,7 +36,7 @@ class Jarvis:
         self.game = Game()
         self.weather = Weather()
 
-        self.r = sr.Recognizer()
+        self.recognizer = speech.Recognizer()
         self.iamToken, self.iamTokenExpires = self.yandexStuff.create_token()
 
         self.play('audio/powerup.wav')
@@ -49,25 +50,26 @@ class Jarvis:
         self.play('audio/jarvisBye.wav')
         time.sleep(1)
         self.play('audio/powerdown.wav')
+        self.loop = False
 
     def checkActive(self):
 
         result = False
         t = ""
 
-        with sr.WavFile("audio/tmp/send.wav") as source:
-            audio = self.r.record(source)
+        with speech.WavFile("audio/tmp/send.wav") as source:
+            audio = self.recognizer.record(source)
 
         # используем возможности библиотеки Spinx
         try:
-            t = self.r.recognize_sphinx(audio)# todo check, language='ru-RU/cmusphinx-ru-5.2')
+            t = self.recognizer.recognize_sphinx(audio)# todo check, language='ru-RU/cmusphinx-ru-5.2')
             if t != "" or self.logAll:
                 print("Sphinx thinks you said: [" + t + "]")
-        except sr.UnknownValueError:
+        except speech.UnknownValueError:
             result = 0
             if self.logAll:
                 print("Sphinx could not understand audio")
-        except sr.RequestError as e:
+        except speech.RequestError as e:
             print("Sphinx error; {0}".format(e))
 
         if t == "jarvis":
@@ -96,23 +98,23 @@ class Jarvis:
 
     def mainLoop(self):
         try:
-            while True:
+            while self.loop:
                 self.listen(2)
-                res = jarvis.checkActive()
+                res = self.checkActive()
                 if res:
                     # записываем основной запрос пользователя
-                    jarvis.listen(3, True)
-                    jarvis.playLowBeep()
+                    self.listen(3, True)
+                    self.playLowBeep()
 
                     time.sleep(0.5)
 
-                    words = jarvis.yandexRecognize()
+                    words = self.yandexRecognize()
                     command = CommandChecker.checkForCommand(words.lower())
 
                     print('команда: ' + command)
                     if (command == "exit"):
                         loop = False
-                        jarvis.destroy()
+                        self.destroy()
 
                     elif (command == "game"):
                         self.game.GameLoop()
@@ -130,9 +132,9 @@ class Jarvis:
                         try:
                             joke = self.anekdot.getJoke()
                             print(joke)
-                            jarvis.say(joke)
+                            self.say(joke)
                         except:
-                            jarvis.say("Что-то я не в настроении шутить")
+                            self.say("Что-то я не в настроении шутить")
 
         except Exception as e:
             print("Глобальная ошибка; {0}".format(e))

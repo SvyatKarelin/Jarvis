@@ -1,6 +1,6 @@
 import requests
 import json
-import baseModule
+from modules.baseModule import BaseModule
 
 
 class Anekdot(BaseModule):
@@ -8,8 +8,7 @@ class Anekdot(BaseModule):
     # конструктор
     def __init__(self):
         self.name = "Анекдоты"
-        self.listening = False
-        super().__init__(self)
+        super().__init__()
 
     def getJoke(jokeType = 1):
 
